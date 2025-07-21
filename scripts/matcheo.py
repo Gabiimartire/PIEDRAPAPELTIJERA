@@ -7,5 +7,5 @@ def matcheo(player, cpu, opciones, nombrePLayer):
         print(f"¡Ganaste {nombrePLayer.capitalize()}!")
         print(opciones[player][cpu])
     else:
-        print(f"¡Perdiste {nombrePLayer.capitalize()}!")
-        print(opciones[cpu][player])
+        print(f"¡Perdiste {nombrePLayer.capitalize()}: {opciones[cpu][player]}!")
+        print("Inténtalo de nuevo.")

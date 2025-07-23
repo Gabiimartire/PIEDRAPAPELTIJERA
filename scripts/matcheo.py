@@ -1,11 +1,8 @@
 def matcheo(player, cpu, opciones, nombrePLayer):
-    if(player in opciones):
-        print(f"La CPU eligió: {cpu}")
     if player == cpu:
-        print("¡Empate!")
+        resultado = ("¡Empate!")
     elif cpu in opciones[player]:
-        print(f"¡Ganaste {nombrePLayer.capitalize()}!")
-        print(opciones[player][cpu])
+        resultado = (f"¡Ganaste {nombrePLayer.capitalize()}!", opciones[player][cpu])
     else:
-        print(f"¡Perdiste {nombrePLayer.capitalize()}: {opciones[cpu][player]}!")
-        print("Inténtalo de nuevo.")
+        resultado = (f"¡Perdiste {nombrePLayer.capitalize()}: {opciones[cpu][player]}!",)
+    return resultado

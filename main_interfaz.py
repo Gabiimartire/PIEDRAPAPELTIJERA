@@ -1,16 +1,6 @@
 from tkinter import *
 from tkinter import ttk  
-import time
-from scripts.reglas import mostrar_reglas
-from scripts.matcheo import matcheo
-import random
-opciones = {
-    'piedra':{'tijera': "Piedra aplasta a Tijeras", 'lagarto': 'Piedra aplasta a Lagarto'},
-    'papel': {'piedra': "Papel cubre a Piedra", 'spock': "Papel refuta a Spock"},
-    'tijera': {'papel': "Tijeras cortan a Papel", 'lagarto': "Tijeras decapitan a Lagarto"},
-    'lagarto': {'papel': "Lagarto come a Papel", 'spock': "Lagarto envenena a Spock"},
-    'spock': {'tijera': "Spock destroza a Tijeras", 'piedra': "Spock vaporiza a Piedra"}
-}
+from pantallas.pantalla2 import comenzar
 
 class MainInterfaz:
     def __init__(self):
@@ -22,66 +12,12 @@ class MainInterfaz:
         self.label_info = ttk.Label(self.ventana, text="¡Bienvenido al juego de Piedra, Papel, Tijera, Lagarto o Spock!")
         self.label_info.config(font=("Arial", 20), background="#1e1e1e", foreground="white")
         self.label_info.pack(pady=20)
-        self.label_info = ttk.Label(self.ventana, text="Presione Comenzar para ver las reglas del juego")
-        self.label_info.config(font=("Arial", 15), background="#1e1e1e", foreground="white")
-        self.label_info.pack(pady=20)
-        ttk.Button(self.ventana, text="Comenzar", command=self.comenzar).pack(pady=20)        # Aquí puedes agregar más elementos de la interfaz gráfica
+        self.label_info2 = ttk.Label(self.ventana, text="Presione Comenzar para ver las reglas del juego")
+        self.label_info2.config(font=("Arial", 15), background="#1e1e1e", foreground="white")
+        self.label_info2.pack(pady=20)
+        ttk.Button(self.ventana, text="Comenzar", command=lambda: comenzar(self)).pack(pady=20)        # Aquí puedes agregar más elementos de la interfaz gráfica
         self.ventana.mainloop()
-    def comenzar(self):
-        self.label_info = ttk.Label(self.ventana, text=mostrar_reglas())     
-        self.label_info.config(font=("Arial", 15), background="#1e1e1e", foreground="white")        
-        self.label_info.pack(pady=20)
-        self.label_info.place(relx=0.5, rely=0.5, anchor=CENTER)
-        ttk.Button(self.ventana, text="Siguiente", command=self.limpiar_pantalla).pack(pady=10)
-    def limpiar_pantalla(self):
-        for widget in self.ventana.winfo_children():
-            widget.destroy()
-        self.jugar()
-    def jugar(self):
-        self.ventana.update()
-        info1 = ttk.Label(self.ventana, text="A la cuenta de tres, elige escribe tu opción:")
-        info1.config(font=("Arial", 25), background="#1e1e1e", foreground="white")
-        info1.pack(pady=20)
-        info1.place(relx=0.5, rely=0.3, anchor=CENTER)
-        info2 = ttk.Label(self.ventana, text="")
-        info2.config(font=("Arial", 35), background="#1e1e1e", foreground="white")
-        info2.place(relx=0.5, rely=0.2, anchor=CENTER)
-        info2.pack(pady=20)
-        for i in range(3, 0, -1):
-            info2.config(text=str(i))
-            self.ventana.update()
-            time.sleep(1)
-        ingrese_opcion = ttk.Entry(self.ventana)
-        ingrese_opcion.pack(pady=20)
-        ingrese_opcion.config(font=("Arial", 20), width=20)
-        ingrese_opcion.place(relx=0.5, rely=0.7, anchor=CENTER)
-        ingrese_opcion.focus()
-        ttk.Button(self.ventana, text="Enviar", command=lambda: self.procesar_opcion(ingrese_opcion.get())).pack(pady=20)
-    def procesar_opcion(self, opcion_usuario):
-        opciones_usuario = opcion_usuario.lower().strip()
-        if opciones_usuario not in opciones:
-            self.label_info = ttk.Label(self.ventana, text="Opción no válida. Por favor, elige entre piedra, papel, tijera, lagarto o spock.")
-            self.label_info.config(font=("Arial", 15), background="#1e1e1e", foreground="white")
-            self.label_info.pack(pady=20)
-        else:
-            cpu_opcion = random.choice(list(opciones.keys()))
-            self.label_info = ttk.Label(self.ventana, text=f"Elegiste: {opcion_usuario.capitalize()}\nLa CPU elegirá su opción...")
-            self.label_info.config(font=("Arial", 15), background="#1e1e1e", foreground="white")
-            self.label_info.pack(pady=20)
-            self.label_info.place(relx=0.5, rely=0.5, anchor=CENTER)
-            self.ventana.update()
-            time.sleep(2)
-            self.ventana.update()
-            self.label_info.config(text=f"La CPU eligió: {cpu_opcion.capitalize()}")
-            self.label_info.pack(pady=20)
-            self.label_info.place(relx=0.5, rely=0.5, anchor=CENTER)
-            time.sleep(1)
-            self.ventana.update()
-            self.label_info.config(text="")
-            self.label_info.config(text=matcheo(opciones_usuario, cpu_opcion, opciones, "Gabriel"))
-            self.label_info.pack(pady=20)
-            self.label_info.place(relx=0.5, rely=0.5, anchor=CENTER)
-            ttk.Button(self.ventana, text="Reiniciar", command=self.limpiar_pantalla).pack(pady=20)
+
 def main():
     app = MainInterfaz()
     return 0

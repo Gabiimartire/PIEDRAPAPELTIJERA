@@ -4,6 +4,7 @@ import time
 from scripts.matcheo import matcheo
 from pantallas.clean import limpiar_pantalla
 import random
+from PIL import Image, ImageTk
 opciones = {
     'piedra':{'tijera': "Piedra aplasta a Tijeras", 'lagarto': 'Piedra aplasta a Lagarto'},
     'papel': {'piedra': "Papel cubre a Piedra", 'spock': "Papel refuta a Spock"},
@@ -17,7 +18,7 @@ def jugar(app):
 
     frame = Frame(app.ventana, bg="#1e1e1e")
     frame.pack(expand=True)
-
+    
     # Mensaje de cuenta regresiva
     info1 = ttk.Label(frame, text="A la cuenta de tres, escribe tu opción:")
     info1.config(font=("Arial", 20), background="#1e1e1e", foreground="white")
@@ -34,13 +35,28 @@ def jugar(app):
         time.sleep(1)
 
     # Entrada de opción
-    ingrese_opcion = ttk.Entry(frame, font=("Arial", 20), width=25)
-    ingrese_opcion.grid(row=2, column=0, columnspan=2, pady=20)
-    ingrese_opcion.focus()
+    #ingrese_opcion = ttk.Entry(frame, font=("Arial", 20), width=25)
+    #ingrese_opcion.grid(row=2, column=0, columnspan=2, pady=20)
+    #ingrese_opcion.focus()
+    frame_iconos = Frame(app.ventana, bg="#1e1e1e")
+    frame_iconos.pack(pady=20)
+    opciones_2 = ["piedra", "papel", "tijeras", "lagarto", "spock"]
 
+    for opcion in opciones_2:
+        img = Image.open(f"./pantallas/images/{opcion}.png").resize((100, 100), Image.Resampling.LANCZOS)
+        img_tk = ImageTk.PhotoImage(img)
+        lbl = ttk.Label(frame_iconos, image=img_tk, background="#1e1e1e")
+        lbl.image = img_tk
+        lbl.pack(side=LEFT, padx=10)
+        lbl.bind("<Button-1>", lambda e, opcion=opcion: procesar_opcion(app, opcion, frame))
+    # Distribuir columnas dentro del frame
+    for i in range(len(opciones_2)):
+        frame.grid_columnconfigure(i, weight=1)
+
+    
     # Botón enviar
-    boton_enviar = ttk.Button(frame, text="Enviar", command=lambda: procesar_opcion(app, ingrese_opcion.get(), frame))
-    boton_enviar.grid(row=3, column=0, columnspan=2, pady=10)
+    #boton_enviar = ttk.Button(frame, text="Enviar", command=lambda: procesar_opcion(app, ingrese_opcion.get(), frame))
+    #boton_enviar.grid(row=3, column=0, columnspan=2, pady=10)
 
     # Guardar el frame por si querés destruirlo después
     app.frame_actual = frame

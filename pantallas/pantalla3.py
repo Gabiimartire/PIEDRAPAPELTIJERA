@@ -1,18 +1,17 @@
 from tkinter import *
 from tkinter import ttk
 import time
-from scripts.matcheo import matcheo
 from pantallas.clean import limpiar_pantalla
-import random
 from PIL import Image, ImageTk
+from scripts.matcheo import matcheo
+import random
 opciones = {
     'piedra':{'tijera': "Piedra aplasta a Tijeras", 'lagarto': 'Piedra aplasta a Lagarto'},
     'papel': {'piedra': "Papel cubre a Piedra", 'spock': "Papel refuta a Spock"},
-    'tijera': {'papel': "Tijeras cortan a Papel", 'lagarto': "Tijeras decapitan a Lagarto"},
+    'tijeras': {'papel': "Tijeras cortan a Papel", 'lagarto': "Tijeras decapitan a Lagarto"},
     'lagarto': {'papel': "Lagarto come a Papel", 'spock': "Lagarto envenena a Spock"},
     'spock': {'tijera': "Spock destroza a Tijeras", 'piedra': "Spock vaporiza a Piedra"}
 }
-
 def jugar(app):
     limpiar_pantalla(app)
 
@@ -43,7 +42,7 @@ def jugar(app):
     opciones_2 = ["piedra", "papel", "tijeras", "lagarto", "spock"]
 
     for opcion in opciones_2:
-        img = Image.open(f"./pantallas/images/{opcion}.png").resize((100, 100), Image.Resampling.LANCZOS)
+        img = Image.open(f"./pantallas/images/{opcion}.png").resize((120, 120), Image.Resampling.LANCZOS)
         img_tk = ImageTk.PhotoImage(img)
         lbl = ttk.Label(frame_iconos, image=img_tk, background="#1e1e1e")
         lbl.image = img_tk
@@ -53,14 +52,7 @@ def jugar(app):
     for i in range(len(opciones_2)):
         frame.grid_columnconfigure(i, weight=1)
 
-    
-    # Botón enviar
-    #boton_enviar = ttk.Button(frame, text="Enviar", command=lambda: procesar_opcion(app, ingrese_opcion.get(), frame))
-    #boton_enviar.grid(row=3, column=0, columnspan=2, pady=10)
-
-    # Guardar el frame por si querés destruirlo después
     app.frame_actual = frame
-
 def procesar_opcion(app, opcion_usuario, frame):
     for widget in frame.winfo_children():
         widget.destroy()
